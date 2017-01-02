@@ -4,13 +4,6 @@ const path = {
   molecule: data.mol || data.molecules || 'molecules',
   atom: data.at || data.atoms || 'atoms',
 };
-const content = {
-  article: {
-    story: 'An atom is the basic unit that makes up all matter.',
-    header: {
-    },
-  },
-};
 
 class Unit extends HTMLElement {
 
