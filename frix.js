@@ -8,7 +8,6 @@ const content = {
   article: {
     story: 'An atom is the basic unit that makes up all matter.',
     header: {
-
     },
   },
 };
@@ -29,6 +28,13 @@ class Unit extends HTMLElement {
       .querySelector(`link[href="${this.path}/${this.type}.html"]`)
       .import;
     const t = doc.querySelector('template');
+    // TODO: do this with keva
+    Object.keys(this.content).forEach((key) => {
+      if(typeof key !== 'string') return;
+      t.content.querySelectorAll(`*[data-name=${key}]`).forEach((element) => {
+        element.textContent = this.content[key];
+      });
+    });
     const instance = t.content.cloneNode(true);
     shadowRoot.appendChild(instance);
   }
