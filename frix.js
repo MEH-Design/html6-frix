@@ -1,8 +1,16 @@
 let data = document.currentScript.dataset;
 const path = {
-  organism : data.orgm || data.organisms || 'organisms',
-  molecule : data.mol  || data.molecules || 'molecules',
-  atom     : data.at   || data.atoms     || 'atoms'
+  organism: data.orgm || data.organisms || 'organisms',
+  molecule: data.mol || data.molecules || 'molecules',
+  atom: data.at || data.atoms || 'atoms',
+};
+const content = {
+  article: {
+    story: 'An atom is the basic unit that makes up all matter.',
+    header: {
+
+    },
+  },
 };
 
 class Unit extends HTMLElement {
@@ -10,18 +18,34 @@ class Unit extends HTMLElement {
   constructor(type) {
     super();
     this.path = path[type];
-    this.name = this.getAttribute('name');
+    this.type = this.getAttribute('type');
+    this.content = this.getScopedContent();
     this.createShadowDom();
   }
 
   createShadowDom() {
     let shadowRoot = this.attachShadow({mode: 'open'});
     const doc = document
-      .querySelector(`link[href="${this.path}/${this.name}.html"]`)
+      .querySelector(`link[href="${this.path}/${this.type}.html"]`)
       .import;
     const t = doc.querySelector('template');
     const instance = t.content.cloneNode(true);
     shadowRoot.appendChild(instance);
+  }
+
+  getScopedContent() {
+    let current = this;
+    let tags = [];
+    while(current) {
+      tags.push(current);
+      current = current.getRootNode().host;
+    }
+    tags = tags.reverse();
+    let scopedContent = content;
+    tags.forEach((tag) => {
+      scopedContent = scopedContent[tag.getAttribute('type')];
+    });
+    return scopedContent;
   }
 }
 
@@ -45,4 +69,4 @@ class Atom extends Unit {
 
 window.customElements.define('frix-organism', Organism);
 window.customElements.define('frix-molecule', Molecule);
-window.customElements.define('frix-atom'    , Atom);
+window.customElements.define('frix-atom', Atom);
