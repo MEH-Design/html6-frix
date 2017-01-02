@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>html6-frix</title>
-    <script src="test/content.js"></script>
     <!-- polyfills -->
     <script src="https://rawgit.com/webcomponents/custom-elements/master/custom-elements.min.js"></script>
     <!-- frix units -->
@@ -13,7 +12,8 @@
   <body>
     <frix-organism type="article">
     </frix-organism>
-    <script src="frix.js"></script>
+    <script data-orgm="test/organisms" data-mol="test/molecules" src="frix.js"></script>
+    <script src="test/start.js"></script>
     <!--
       possible data attributes
       data-orgm, data-mol, data-at
